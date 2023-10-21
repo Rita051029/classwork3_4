@@ -1,44 +1,57 @@
-
-class Forest:
-    height = 100
-    weight = 5
-    age = 25
-    color_list = 'green'
-    breed = "Dub"
-
-    def __int__(self):
-        print(Forest.height)
-        print(Forest.age)
-
-tree1 = Forest()
-print(tree1)
+import random
 
 class Student:
-    group = "c2013"
-    def __init__(self, age, name=None , hight=160):
-        self.weight = 50
-        self.hight = 150
-        self.age = age
+
+    def __init__(self, name=None):
         self.name = name
+        self.alive = True
+        self.gladness = 50
+        self.progress = 0
 
-    def printer(self):
-        print(self.weight)
+    def to_study(self):
+        print("Time to study!")
+        self.progress += 0.12
+        self.gladness -= 5
 
-    def grow(self, hight=10):
-        self.hight += hight
+    def to_chill(self):
+        print("Rest time!")
+        self.progress -= 0.1
+        self.gladness += 5
 
-    def __str__(self):
-        return f"I'm student. My name is {self.name} and i'm {self.age} years old."
+    def to_sleep(self):
+        print("I will sleep!")
+        self.gladness += 3
 
-nick = Student(15, "Nick", 150)
-kate = Student(16, "kate", 140)
-print(nick)
-print(kate)
-print(nick.age)
-print(kate.age)
-print(nick.hight)
-print(kate.hight)
-kate.grow()
-print(kate.hight)
-kate.grow(25)
-print(kate.hight)
+    def is_alive(self):
+        if self.progress < -0.5:
+            print("Cast out..")
+            self.alive = False
+        elif self.gladness <= 0:
+            print("Depression")
+            self.alive = False
+        elif self.progress > 5:
+            print("Passed externally..")
+
+    def end_of_day(self):
+        print(f"Gladness = {self.gladness}")
+        print(f"Progress = {self.progress}")
+
+    def live(self, day):
+        day = "Day" + str(day) + self.name + "life"
+        print(f"{day:^50}")
+        live_cube = random.randint(1, 3)
+        if live_cube == 1:
+            self.to_study()
+        elif live_cube == 2:
+            self.to_chill()
+        elif live_cube == 3:
+            self.to_sleep()
+
+        self.end_of_day()
+        self.is_alive()
+
+nick = Student(name="Nick")
+for i in range(365):
+    if nick.alive == False:
+        break
+    nick.live(i)
